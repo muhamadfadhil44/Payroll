@@ -95,18 +95,24 @@
                 <div class="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-cyan-500 text-slate-950 text-xl shadow-md shadow-cyan-600/30">A</div>
                 <div>
                     <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Payroll App</p>
-                    <h2 class="text-2xl font-semibold text-slate-100">Admin Panel</h2>
+                    <h2 class="text-2xl font-semibold text-slate-100">
+                        {{ Auth::user()->role === 'admin' ? 'Admin Panel' : 'User Panel' }}
+                    </h2>
                 </div>
             </div>
         </div>
 
         <nav class="mt-8 space-y-2 px-6">
-            <a href="/admin" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">🏠 Dashboard</a>
-            <a href="/user" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">👤 Users</a>
-            <a href="/position" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">📌 Positions</a>
-            <a href="/employee" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">👥 Employees</a>
-            <a href="/payroll" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">💰 Payroll</a>
-            <a href="/admin/attendance" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">🗓 Attendance</a>
+            @if(Auth::user()->role === 'admin')
+                <a href="/admin" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">🏠 Dashboard</a>
+                <a href="/user" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">👤 Users</a>
+                <a href="/position" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">📌 Positions</a>
+                <a href="/employee" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">👥 Employees</a>
+                <a href="/payroll" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">💰 Payroll</a>
+                <a href="/admin/attendance" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">🗓 Attendance</a>
+            @else
+                <a href="/attendance" class="nav-link block rounded-3xl px-4 py-3 text-sm font-semibold text-slate-200">🗓 Kehadiran</a>
+            @endif
             <a href="/logout" class="mt-6 block rounded-3xl px-4 py-3 text-sm font-semibold text-rose-300 hover:bg-rose-900/40">Logout</a>
         </nav>
     </aside>
@@ -121,12 +127,14 @@
                 </button>
                 <div>
                     <p class="text-sm text-slate-400">Dashboard</p>
-                    <h1 class="text-2xl font-semibold text-slate-100">Admin Control Center</h1>
+                    <h1 class="text-2xl font-semibold text-slate-100">
+                        {{ Auth::user()->role === 'admin' ? 'Admin Control Center' : 'User Attendance Center' }}
+                    </h1>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="hidden sm:block text-right">
                         <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Signed in as</p>
-                        <p class="font-semibold text-slate-700">{{ Auth::user()->email }}</p>
+                        <p class="font-semibold text-slate-100">{{ Auth::user()->email }}</p>
                     </div>
                     @php
                         $profileUrl = Auth::user()->profile_photo_path
